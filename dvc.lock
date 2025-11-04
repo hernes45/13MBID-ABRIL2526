@@ -1,0 +1,26 @@
+schema: '2.0'
+stages:
+  visualize_data:
+    cmd: py src/data_visualization.py
+    deps:
+    - path: data/raw/bank-additional-full.csv
+      hash: md5
+      md5: f6cb2c1256ffe2836b36df321f46e92c
+      size: 5834924
+    outs:
+    - path: docs/figures/
+      hash: md5
+      md5: 487be85633fefc17dbdcc41f85d1a755.dir
+      size: 147260
+      nfiles: 4
+  test:
+    cmd: pytest test/test_data_quality.py
+    deps:
+    - path: data/raw/bank-additional-full.csv
+      hash: md5
+      md5: f6cb2c1256ffe2836b36df321f46e92c
+      size: 5834924
+    - path: test/test_data_quality.py
+      hash: md5
+      md5: f6d0992a604f673231ac3aa0662be7b6
+      size: 2193
