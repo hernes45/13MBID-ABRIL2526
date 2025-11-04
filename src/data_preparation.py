@@ -22,6 +22,16 @@ def preprocess_data(input_path= INPUT_CSV, output_path = OUTPUT_CSV):
     # Se hace un filtro para eliminar las filas duplicadas
     df = df.drop_duplicates()
 
+    # Transformaciones extra: estandarizamos las variables categoricas
+    df = pd.get_dummies(df, columns=[
+    "housing", "loan", "job", "marital", "education", "contact", "month", 
+    "day_of_week", "poutcome", "y"
+    ], drop_first=True)
+
+    # Transformaciones extra: Convertimos ls variables boolenas en numericas
+    df = df.applymap(lambda x: int(x) if isinstance(x, bool) else x)
+
+
     df.to_csv(output_path, index=False)
 
 if __name__ == "__main__":
