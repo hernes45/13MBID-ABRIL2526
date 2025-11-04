@@ -38,23 +38,16 @@ def test_esquema(datos_banco):
     # Validar la estructura del DataFrame
     esquema.validate(df)
 
+#Verificacion de valores positivos
+def test_anomalias_campaign(datos_banco):
+    df = datos_banco
+
+    # Número de contactos (campaign) debe ser positivo
+    assert (df["campaign"] > 0).all(), "Existen registros con campaign <= 0."
+
 def test_basico(datos_banco):
     df = datos_banco
 
     assert not df.empty
     assert df.isnull().sum().sum() == 0 #El dataframe contiene valores nulos
     assert df.shape[1] == 21 # debe tener 21 columnas segun la documentacion
-
-
-if __name__ == "__main__":
-    try:
-        test_esquema(datos_banco())
-        test_basico(datos_banco())
-
-        print("¡¡Todos los test pasaron!!")
-        with open("docs/test_results/test_results.txt", "w") as f:
-            f.write(f"Todos los tests pasaro exitosamentes\n")
-    except AssertionError as e:
-        print(f"Test fallido: {e}")
-        with open("docs/test_results/test_results.txt", "w") as f:
-            f.write(f"Test fallido: {e}\n")
