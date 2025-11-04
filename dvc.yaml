@@ -1,0 +1,14 @@
+stages:
+  visualize_data:
+    cmd: py src/data_visualization.py
+    deps:
+      - data/raw/bank-additional-full.csv
+    outs:
+      - docs/figures/
+  test:
+    cmd: pytest --html=docs/test_results/test_results.html --self-contained-html  test/test_data_quality.py
+    deps:
+      - test/test_data_quality.py
+      - data/raw/bank-additional-full.csv
+    outs:
+      - docs/test_results/test_results.html

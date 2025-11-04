@@ -12,4 +12,5 @@ pytest
 pandera 
 great_expectations 
 fastapi 
-plotly 
+plotly
+pytest-html
