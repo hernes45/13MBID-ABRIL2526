@@ -16,7 +16,7 @@ conformará un depósito a plazo fijo basándose en sus características persona
 """)
 
 # URL de la API
-API_URL = st.sidebar.text_input("URL de la API", "http://localhost:8000")
+API_URL = st.sidebar.text_input("URL de la API", "https://api-13mbid-ernesto.onrender.com/")
 
 # Verificar estado de la API
 st.sidebar.markdown("---")
