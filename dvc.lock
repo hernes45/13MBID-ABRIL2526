@@ -98,3 +98,24 @@ stages:
       hash: md5
       md5: bbbfee614c009bcdc5737b569e6a62a2
       size: 6496
+  test_train_model:
+    cmd: pytest --html=docs/test_results/test_results-train-model.html 
+      --self-contained-html test/test_training.py
+    deps:
+    - path: data/processed/bank-processed.csv
+      hash: md5
+      md5: 8be1a447fe2602de78a4994a9f15e880
+      size: 4368118
+    - path: metrics/metrics.json
+      hash: md5
+      md5: 7070ced462ef5221ba83e0693f2d4d6d
+      size: 160
+    - path: test/test_training.py
+      hash: md5
+      md5: 162db7f19e5f2eda3b05e2696a220734
+      size: 1421
+    outs:
+    - path: docs/test_results/test_results-train-model.html
+      hash: md5
+      md5: 28c849d88e927f38e8face857a8bf343
+      size: 34109
