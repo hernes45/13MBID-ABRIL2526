@@ -5,31 +5,30 @@ INPUT_CSV= 'data/raw/bank-additional-full.csv'
 OUTPUT_CSV= 'data/processed/bank-processed.csv'
 
 def preprocess_data(input_path= INPUT_CSV, output_path = OUTPUT_CSV):
+    #Load the dataset
     df = pd.read_csv(input_path, sep=';')
     
-    # Se ajustan los nombres de las columnas para que no contengan puntos
+    # Adaptar nombres de columnas
     df.columns = df.columns.str.replace(".", "_")
 
     # Transformar los valores 'unknown' en NaN
     df.replace('unknown', np.nan, inplace=True)
 
-    # Por la poca variedad en los datos y gran cantidad de nulos (20%), se elimina la columna "default"
-    df.drop(columns=["default"], inplace=True)
+    # Se agrega el campo contacted_before
+    df['contacted_before'] = np.where(df['pdays'] == 999, 'no', 'yes')
+
+    # Se elimina la columna 'default' ya que tiene muchos valores desconocidos
+    df.drop(columns=["default", "pdays"], inplace=True)
 
     # Se hace un filtro para eliminar las filas que tienen valores nulos
     df.dropna(inplace=True)
-
+    
     # Se hace un filtro para eliminar las filas duplicadas
-    df = df.drop_duplicates()
+    df.drop_duplicates(inplace=True)
 
-    # Transformaciones extra: estandarizamos las variables categoricas
-    df = pd.get_dummies(df, columns=[
-    "housing", "loan", "job", "marital", "education", "contact", "month", 
-    "day_of_week", "poutcome", "y"
-    ], drop_first=True)
-
-    # Transformaciones extra: Convertimos ls variables boolenas en numericas
-    df = df.applymap(lambda x: int(x) if isinstance(x, bool) else x)
+    # Mapear la columna objetivo 'y' a valores binarios
+    map = {'yes': 1, 'no': 0}
+    df['y'] = df['y'].map(map)
 
 
     df.to_csv(output_path, index=False)
